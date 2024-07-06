@@ -99,9 +99,22 @@
     </div>
     <div class="result" id="result"></div>
 
-    <script src="vips.js"></script>
-    <script>
+    <script type="module">
+        import Vips from './vips-es6.js';
+
+        async function initializeVips() {
+            try {
+                console.log('正在初始化 VIPS...');
+                const vips = await Vips();
+                console.log('VIPS 初始化成功');
+                return vips;
+            } catch (error) {
+                console.error('VIPS 初始化失败', error);
+            }
+        }
+
         document.getElementById('convertButton').addEventListener('click', async () => {
+            console.log('转换按钮被点击');
             const fileInput = document.getElementById('file');
             const format = document.getElementById('format').value;
             const width = parseInt(document.getElementById('width').value);
@@ -117,32 +130,48 @@
             const file = fileInput.files[0];
             const reader = new FileReader();
             reader.onload = async function(e) {
+                console.log('文件读取成功');
                 const arrayBuffer = e.target.result;
-                const vips = await VIPS();
 
-                let image = vips.Image.newFromBuffer(new Uint8Array(arrayBuffer));
+                const vips = await initializeVips();
+
+                let image;
+                try {
+                    image = vips.Image.newFromBuffer(new Uint8Array(arrayBuffer));
+                    console.log('图像加载成功');
+                } catch (error) {
+                    console.error('图像加载失败', error);
+                    return;
+                }
 
                 if (!isNaN(width) || !isNaN(height)) {
                     image = image.resize(width / image.width, height / image.height, { kernel: vips.KERNEL_NEAREST });
+                    console.log(`图像调整大小为：宽度=${width}, 高度=${height}`);
                 }
 
                 if (crop) {
                     const smallerSide = Math.min(image.width, image.height);
                     image = image.crop((image.width - smallerSide) / 2, (image.height - smallerSide) / 2, smallerSide, smallerSide);
+                    console.log('图像剪裁成功');
                 }
 
                 if (!isNaN(rotate)) {
                     image = image.rot(rotate);
+                    console.log(`图像旋转角度为：${rotate}`);
                 }
 
                 const options = {};
                 if (format === 'jpg') options.Q = 90; // 示例：设置JPG质量为90
 
-                const buffer = image.writeToBuffer(`.${format}`, options);
-                const blob = new Blob([buffer], { type: `image/${format}` });
-                const url = URL.createObjectURL(blob);
-
-                document.getElementById('result').innerHTML = `<img src="${url}" alt="转换后的图片">`;
+                try {
+                    const buffer = image.writeToBuffer(`.${format}`, options);
+                    const blob = new Blob([buffer], { type: `image/${format}` });
+                    const url = URL.createObjectURL(blob);
+                    document.getElementById('result').innerHTML = `<img src="${url}" alt="转换后的图片">`;
+                    console.log('图像转换成功并展示');
+                } catch (error) {
+                    console.error('图像转换失败', error);
+                }
             };
             reader.readAsArrayBuffer(file);
         });
