@@ -506,6 +506,31 @@ declare module Vips {
          */
         readonly filename: string;
 
+        /**
+         * Page height in pixels.
+         */
+        readonly pageHeight: number;
+
+        /**
+         * Block evaluation on this image.
+         */
+        kill: boolean;
+
+        /**
+         * Attach progress feedback.
+         *
+         * This method can update user-interfaces with progress feedback,
+         * for example:
+         * ```js
+         * const image = vips.Image.newFromFile('huge.jpg');
+         * image.onProgress = (percent) =>
+         *   console.log(`${percent}% complete`);
+         * image.writeToFile('x.png');
+         * ```
+         * @param percent Percent complete.
+         */
+        onProgress: (percent: number) => void;
+
         //#region Constructor functions
 
         /**
@@ -576,6 +601,10 @@ declare module Vips {
              * loaders are permissive, that is, [[FailOn.none]].
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
         }): Image;
 
         /**
@@ -641,6 +670,10 @@ declare module Vips {
              * loaders are permissive, that is, [[FailOn.none]].
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
         }): Image;
 
         /**
@@ -663,6 +696,10 @@ declare module Vips {
              * loaders are permissive, that is, [[FailOn.none]].
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
         }): Image;
 
         /**
@@ -966,6 +1003,10 @@ declare module Vips {
              * Color for background pixels.
              */
             background?: ArrayConstant
+            /**
+             * Enable line art mode.
+             */
+            line_art?: boolean
         }): {
             /**
              * Output left edge.
@@ -1454,43 +1495,43 @@ declare module Vips {
         /**
          * Unsigned char format
          */
-        uchar = 'uchar',
+        uchar = 0, // 'uchar'
         /**
          * Char format
          */
-        char = 'char',
+        char = 1, // 'char'
         /**
          * Unsigned short format
          */
-        ushort = 'ushort',
+        ushort = 2, // 'ushort'
         /**
          * Short format
          */
-        short = 'short',
+        short = 3, // 'short'
         /**
          * Unsigned int format
          */
-        uint = 'uint',
+        uint = 4, // 'uint'
         /**
          * Int format
          */
-        int = 'int',
+        int = 5, // 'int'
         /**
          * Float format
          */
-        float = 'float',
+        float = 6, // 'float'
         /**
          * Complex (two floats) format
          */
-        complex = 'complex',
+        complex = 7, // 'complex'
         /**
          * Double float format
          */
-        double = 'double',
+        double = 8, // 'double'
         /**
          * Double complex (two double) format
          */
-        dpcomplex = 'dpcomplex'
+        dpcomplex = 9 // 'dpcomplex'
     }
 
     /**
@@ -1507,103 +1548,103 @@ declare module Vips {
         /**
          * Where the second object is drawn, the first is removed
          */
-        clear = 'clear',
+        clear = 0, // 'clear'
         /**
          * The second object is drawn as if nothing were below
          */
-        source = 'source',
+        source = 1, // 'source'
         /**
          * The image shows what you would expect if you held two semi-transparent slides on top of each other
          */
-        over = 'over',
+        over = 2, // 'over'
         /**
          * The first object is removed completely, the second is only drawn where the first was
          */
-        in = 'in',
+        in = 3, // 'in'
         /**
          * The second is drawn only where the first isn't
          */
-        out = 'out',
+        out = 4, // 'out'
         /**
          * This leaves the first object mostly intact, but mixes both objects in the overlapping area
          */
-        atop = 'atop',
+        atop = 5, // 'atop'
         /**
          * Leaves the first object untouched, the second is discarded completely
          */
-        dest = 'dest',
+        dest = 6, // 'dest'
         /**
          * Like OVER, but swaps the arguments
          */
-        dest_over = 'dest-over',
+        dest_over = 7, // 'dest-over'
         /**
          * Like IN, but swaps the arguments
          */
-        dest_in = 'dest-in',
+        dest_in = 8, // 'dest-in'
         /**
          * Like OUT, but swaps the arguments
          */
-        dest_out = 'dest-out',
+        dest_out = 9, // 'dest-out'
         /**
          * Like ATOP, but swaps the arguments
          */
-        dest_atop = 'dest-atop',
+        dest_atop = 10, // 'dest-atop'
         /**
          * Something like a difference operator
          */
-        xor = 'xor',
+        xor = 11, // 'xor'
         /**
          * A bit like adding the two images
          */
-        add = 'add',
+        add = 12, // 'add'
         /**
          * A bit like the darker of the two
          */
-        saturate = 'saturate',
+        saturate = 13, // 'saturate'
         /**
          * At least as dark as the darker of the two inputs
          */
-        multiply = 'multiply',
+        multiply = 14, // 'multiply'
         /**
          * At least as light as the lighter of the inputs
          */
-        screen = 'screen',
+        screen = 15, // 'screen'
         /**
          * Multiplies or screens colors, depending on the lightness
          */
-        overlay = 'overlay',
+        overlay = 16, // 'overlay'
         /**
          * The darker of each component
          */
-        darken = 'darken',
+        darken = 17, // 'darken'
         /**
          * The lighter of each component
          */
-        lighten = 'lighten',
+        lighten = 18, // 'lighten'
         /**
          * Brighten first by a factor second
          */
-        colour_dodge = 'colour-dodge',
+        colour_dodge = 19, // 'colour-dodge'
         /**
          * Darken first by a factor of second
          */
-        colour_burn = 'colour-burn',
+        colour_burn = 20, // 'colour-burn'
         /**
          * Multiply or screen, depending on lightness
          */
-        hard_light = 'hard-light',
+        hard_light = 21, // 'hard-light'
         /**
          * Darken or lighten, depending on lightness
          */
-        soft_light = 'soft-light',
+        soft_light = 22, // 'soft-light'
         /**
          * Difference of the two
          */
-        difference = 'difference',
+        difference = 23, // 'difference'
         /**
          * Somewhat like DIFFERENCE, but lower-contrast
          */
-        exclusion = 'exclusion'
+        exclusion = 24 // 'exclusion'
     }
 
     /**
@@ -1620,15 +1661,15 @@ declare module Vips {
         /**
          * Pixels are not coded
          */
-        none = 'none',
+        none = 0, // 'none'
         /**
          * Pixels encode 3 float CIELAB values as 4 uchar
          */
-        labq = 'labq',
+        labq = 2, // 'labq'
         /**
          * Pixels encode 3 float RGB as 4 uchar (Radiance coding)
          */
-        rad = 'rad'
+        rad = 6 // 'rad'
     }
 
     /**
@@ -1646,106 +1687,104 @@ declare module Vips {
         /**
          * Generic many-band image
          */
-        multiband = 'multiband',
+        multiband = 0, // 'multiband'
         /**
          * Some kind of single-band image
          */
-        b_w = 'b-w',
+        b_w = 1, // 'b-w'
         /**
          * A 1D image, eg. histogram or lookup table
          */
-        histogram = 'histogram',
+        histogram = 10, // 'histogram'
         /**
          * The first three bands are CIE XYZ
          */
-        xyz = 'xyz',
+        xyz = 12, // 'xyz'
         /**
          * Pixels are in CIE Lab space
          */
-        lab = 'lab',
+        lab = 13, // 'lab'
         /**
          * The first four bands are in CMYK space
          */
-        cmyk = 'cmyk',
+        cmyk = 15, // 'cmyk'
         /**
          * Implies #VIPS_CODING_LABQ
          */
-        labq = 'labq',
+        labq = 16, // 'labq'
         /**
          * Generic RGB space
          */
-        rgb = 'rgb',
+        rgb = 17, // 'rgb'
         /**
          * A uniform colourspace based on CMC(1:1)
          */
-        cmc = 'cmc',
+        cmc = 18, // 'cmc'
         /**
          * Pixels are in CIE LCh space
          */
-        lch = 'lch',
+        lch = 19, // 'lch'
         /**
          * CIE LAB coded as three signed 16-bit values
          */
-        labs = 'labs',
+        labs = 21, // 'labs'
         /**
          * Pixels are sRGB
          */
-        srgb = 'srgb',
+        srgb = 22, // 'srgb'
         /**
          * Pixels are CIE Yxy
          */
-        yxy = 'yxy',
+        yxy = 23, // 'yxy'
         /**
          * Image is in fourier space
          */
-        fourier = 'fourier',
+        fourier = 24, // 'fourier'
         /**
          * Generic 16-bit RGB
          */
-        rgb16 = 'rgb16',
+        rgb16 = 25, // 'rgb16'
         /**
          * Generic 16-bit mono
          */
-        grey16 = 'grey16',
+        grey16 = 26, // 'grey16'
         /**
          * A matrix
          */
-        matrix = 'matrix',
+        matrix = 27, // 'matrix'
         /**
          * Pixels are scRGB
          */
-        scrgb = 'scrgb',
+        scrgb = 28, // 'scrgb'
         /**
          * Pixels are HSV
          */
-        hsv = 'hsv'
+        hsv = 29 // 'hsv'
     }
 
     /**
-     * See vips_image_pipelinev(). Operations can hint to the VIPS image IO
-     * system about the kind of demand geometry they prefer.
+     * See vips_image_pipelinev(). Operations can hint
+     * the kind of demand geometry they prefer
+     * to the VIPS image IO system.
      *
      * These demand styles are given below in order of increasing
-     * restrictiveness.  When demanding output from a pipeline,
+     * specialisation.  When demanding output from a pipeline,
      * vips_image_generate()
-     * will use the most restrictive of the styles requested by the operations
+     * will use the most general style requested by the operations
      * in the pipeline.
      *
-     * #VIPS_DEMAND_STYLE_THINSTRIP --- This operation would like to output strips
-     * the width of the image and a few pels high. This is option suitable for
-     * point-to-point operations, such as those in the arithmetic package.
-     *
-     * This option is only efficient for cases where each output pel depends
-     * upon the pel in the corresponding position in the input image.
+     * #VIPS_DEMAND_STYLE_SMALLTILE --- This is the most general demand format.
+     * Output is demanded in small (around 100x100 pel) sections. This style works
+     * reasonably efficiently, even for bizarre operations like 45 degree rotate.
      *
      * #VIPS_DEMAND_STYLE_FATSTRIP --- This operation would like to output strips
      * the width of the image and as high as possible. This option is suitable
      * for area operations which do not violently transform coordinates, such
      * as vips_conv().
      *
-     * #VIPS_DEMAND_STYLE_SMALLTILE --- This is the most general demand format.
-     * Output is demanded in small (around 100x100 pel) sections. This style works
-     * reasonably efficiently, even for bizzare operations like 45 degree rotate.
+     * #VIPS_DEMAND_STYLE_THINSTRIP --- This operation would like to output strips
+     * the width of the image and a few pels high. This option is suitable for
+     * point-to-point operations, such as those in the arithmetic package.
      *
      * #VIPS_DEMAND_STYLE_ANY --- This image is not being demand-read from a disc
      * file (even indirectly) so any demand style is OK. It's used for things like
@@ -1755,17 +1794,17 @@ declare module Vips {
      */
     enum DemandStyle {
         /**
-         * Demand in small (typically 64x64 pixel) tiles
+         * Demand in small (typically 128x128 pixel) tiles
          */
-        smalltile = 'smalltile',
+        smalltile = 0, // 'smalltile'
         /**
-         * Demand in fat (typically 10 pixel high) strips
+         * Demand in fat (typically 16 pixel high) strips
          */
-        fatstrip = 'fatstrip',
+        fatstrip = 1, // 'fatstrip'
         /**
          * Demand in thin (typically 1 pixel high) strips
          */
-        thinstrip = 'thinstrip'
+        thinstrip = 2 // 'thinstrip'
     }
 
     /**
@@ -1775,27 +1814,27 @@ declare module Vips {
         /**
          * ==
          */
-        equal = 'equal',
+        equal = 0, // 'equal'
         /**
          * !=
          */
-        noteq = 'noteq',
+        noteq = 1, // 'noteq'
         /**
          * <
          */
-        less = 'less',
+        less = 2, // 'less'
         /**
          * <=
          */
-        lesseq = 'lesseq',
+        lesseq = 3, // 'lesseq'
         /**
          * >
          */
-        more = 'more',
+        more = 4, // 'more'
         /**
          * >=
          */
-        moreeq = 'moreeq'
+        moreeq = 5 // 'moreeq'
     }
 
     /**
@@ -1805,23 +1844,23 @@ declare module Vips {
         /**
          * &
          */
-        and = 'and',
+        and = 0, // 'and'
         /**
          * |
          */
-        or = 'or',
+        or = 1, // 'or'
         /**
          * ^
          */
-        eor = 'eor',
+        eor = 2, // 'eor'
         /**
          * >>
          */
-        lshift = 'lshift',
+        lshift = 3, // 'lshift'
         /**
          * <<
          */
-        rshift = 'rshift'
+        rshift = 4 // 'rshift'
     }
 
     /**
@@ -1829,17 +1868,17 @@ declare module Vips {
      */
     enum OperationMath2 {
         /**
-         * Pow( left, right )
+         * Pow(left, right)
          */
-        pow = 'pow',
+        pow = 0, // 'pow'
         /**
-         * Pow( right, left )
+         * Pow(right, left)
          */
-        wop = 'wop',
+        wop = 1, // 'wop'
         /**
-         * Atan2( left, right )
+         * Atan2(left, right)
          */
-        atan2 = 'atan2'
+        atan2 = 2 // 'atan2'
     }
 
     /**
@@ -1849,7 +1888,7 @@ declare module Vips {
         /**
          * Convert to polar coordinates
          */
-        cross_phase = 'cross-phase'
+        cross_phase = 0 // 'cross-phase'
     }
 
     /**
@@ -1859,67 +1898,67 @@ declare module Vips {
         /**
          * Sin(), angles in degrees
          */
-        sin = 'sin',
+        sin = 0, // 'sin'
         /**
          * Cos(), angles in degrees
          */
-        cos = 'cos',
+        cos = 1, // 'cos'
         /**
          * Tan(), angles in degrees
          */
-        tan = 'tan',
+        tan = 2, // 'tan'
         /**
          * Asin(), angles in degrees
          */
-        asin = 'asin',
+        asin = 3, // 'asin'
         /**
          * Acos(), angles in degrees
          */
-        acos = 'acos',
+        acos = 4, // 'acos'
         /**
          * Atan(), angles in degrees
          */
-        atan = 'atan',
+        atan = 5, // 'atan'
         /**
          * Log base e
          */
-        log = 'log',
+        log = 6, // 'log'
         /**
          * Log base 10
          */
-        log10 = 'log10',
+        log10 = 7, // 'log10'
         /**
          * E to the something
          */
-        exp = 'exp',
+        exp = 8, // 'exp'
         /**
          * 10 to the something
          */
-        exp10 = 'exp10',
+        exp10 = 9, // 'exp10'
         /**
          * Sinh(), angles in radians
          */
-        sinh = 'sinh',
+        sinh = 10, // 'sinh'
         /**
          * Cosh(), angles in radians
          */
-        cosh = 'cosh',
+        cosh = 11, // 'cosh'
         /**
          * Tanh(), angles in radians
          */
-        tanh = 'tanh',
+        tanh = 12, // 'tanh'
         /**
          * Asinh(), angles in radians
          */
-        asinh = 'asinh',
+        asinh = 13, // 'asinh'
         /**
          * Acosh(), angles in radians
          */
-        acosh = 'acosh',
+        acosh = 14, // 'acosh'
         /**
          * Atanh(), angles in radians
          */
-        atanh = 'atanh'
+        atanh = 15 // 'atanh'
     }
 
     /**
@@ -1929,15 +1968,15 @@ declare module Vips {
         /**
          * Round to nearest
          */
-        rint = 'rint',
+        rint = 0, // 'rint'
         /**
          * The smallest integral value not less than
          */
-        ceil = 'ceil',
+        ceil = 1, // 'ceil'
         /**
          * Largest integral value not greater than
          */
-        floor = 'floor'
+        floor = 2 // 'floor'
     }
 
     /**
@@ -1947,15 +1986,15 @@ declare module Vips {
         /**
          * Convert to polar coordinates
          */
-        polar = 'polar',
+        polar = 0, // 'polar'
         /**
          * Convert to rectangular coordinates
          */
-        rect = 'rect',
+        rect = 1, // 'rect'
         /**
          * Complex conjugate
          */
-        conj = 'conj'
+        conj = 2 // 'conj'
     }
 
     /**
@@ -1965,11 +2004,11 @@ declare module Vips {
         /**
          * Get real component
          */
-        real = 'real',
+        real = 0, // 'real'
         /**
          * Get imaginary component
          */
-        imag = 'imag'
+        imag = 1 // 'imag'
     }
 
     /**
@@ -1979,15 +2018,15 @@ declare module Vips {
         /**
          * Take the maximum of the possible values
          */
-        max = 'max',
+        max = 0, // 'max'
         /**
          * Sum all the values
          */
-        sum = 'sum',
+        sum = 1, // 'sum'
         /**
          * Take the minimum value
          */
-        min = 'min'
+        min = 2 // 'min'
     }
 
     /**
@@ -2003,12 +2042,12 @@ declare module Vips {
         /**
          * Can read anywhere
          */
-        random = 'random',
+        random = 0, // 'random'
         /**
          * Top-to-bottom reading only, but with a small buffer
          */
-        sequential = 'sequential',
-        sequential_unbuffered = 'sequential-unbuffered'
+        sequential = 1, // 'sequential'
+        sequential_unbuffered = 2 // 'sequential-unbuffered'
     }
 
     /**
@@ -2040,27 +2079,27 @@ declare module Vips {
         /**
          * Extend with black (all 0) pixels
          */
-        black = 'black',
+        black = 0, // 'black'
         /**
          * Copy the image edges
          */
-        copy = 'copy',
+        copy = 1, // 'copy'
         /**
          * Repeat the whole image
          */
-        repeat = 'repeat',
+        repeat = 2, // 'repeat'
         /**
          * Mirror the whole image
          */
-        mirror = 'mirror',
+        mirror = 3, // 'mirror'
         /**
          * Extend with white (all bits set) pixels
          */
-        white = 'white',
+        white = 4, // 'white'
         /**
          * Extend with colour from the @background property
          */
-        background = 'background'
+        background = 5 // 'background'
     }
 
     /**
@@ -2070,39 +2109,39 @@ declare module Vips {
         /**
          * Centre
          */
-        centre = 'centre',
+        centre = 0, // 'centre'
         /**
          * North
          */
-        north = 'north',
+        north = 1, // 'north'
         /**
          * East
          */
-        east = 'east',
+        east = 2, // 'east'
         /**
          * South
          */
-        south = 'south',
+        south = 3, // 'south'
         /**
          * West
          */
-        west = 'west',
+        west = 4, // 'west'
         /**
          * North-east
          */
-        north_east = 'north-east',
+        north_east = 5, // 'north-east'
         /**
          * South-east
          */
-        south_east = 'south-east',
+        south_east = 6, // 'south-east'
         /**
          * South-west
          */
-        south_west = 'south-west',
+        south_west = 7, // 'south-west'
         /**
          * North-west
          */
-        north_west = 'north-west'
+        north_west = 8 // 'north-west'
     }
 
     /**
@@ -2117,11 +2156,11 @@ declare module Vips {
         /**
          * Left-right
          */
-        horizontal = 'horizontal',
+        horizontal = 0, // 'horizontal'
         /**
          * Top-bottom
          */
-        vertical = 'vertical'
+        vertical = 1 // 'vertical'
     }
 
     /**
@@ -2136,15 +2175,15 @@ declare module Vips {
         /**
          * Align low coordinate edge
          */
-        low = 'low',
+        low = 0, // 'low'
         /**
          * Align centre
          */
-        centre = 'centre',
+        centre = 1, // 'centre'
         /**
          * Align high coordinate edge
          */
-        high = 'high'
+        high = 2 // 'high'
     }
 
     /**
@@ -2162,31 +2201,31 @@ declare module Vips {
         /**
          * Do nothing
          */
-        none = 'none',
+        none = 0, // 'none'
         /**
          * Just take the centre
          */
-        centre = 'centre',
+        centre = 1, // 'centre'
         /**
          * Use an entropy measure
          */
-        entropy = 'entropy',
+        entropy = 2, // 'entropy'
         /**
          * Look for features likely to draw human attention
          */
-        attention = 'attention',
+        attention = 3, // 'attention'
         /**
          * Position the crop towards the low coordinate
          */
-        low = 'low',
+        low = 4, // 'low'
         /**
          * Position the crop towards the high coordinate
          */
-        high = 'high',
+        high = 5, // 'high'
         /**
          * Everything is interesting
          */
-        all = 'all'
+        all = 6 // 'all'
     }
 
     /**
@@ -2200,19 +2239,19 @@ declare module Vips {
         /**
          * No rotate
          */
-        d0 = 'd0',
+        d0 = 0, // 'd0'
         /**
          * 90 degrees clockwise
          */
-        d90 = 'd90',
+        d90 = 1, // 'd90'
         /**
          * 180 degree rotate
          */
-        d180 = 'd180',
+        d180 = 2, // 'd180'
         /**
          * 90 degrees anti-clockwise
          */
-        d270 = 'd270'
+        d270 = 3 // 'd270'
     }
 
     /**
@@ -2226,35 +2265,35 @@ declare module Vips {
         /**
          * No rotate
          */
-        d0 = 'd0',
+        d0 = 0, // 'd0'
         /**
          * 45 degrees clockwise
          */
-        d45 = 'd45',
+        d45 = 1, // 'd45'
         /**
          * 90 degrees clockwise
          */
-        d90 = 'd90',
+        d90 = 2, // 'd90'
         /**
          * 135 degrees clockwise
          */
-        d135 = 'd135',
+        d135 = 3, // 'd135'
         /**
          * 180 degrees
          */
-        d180 = 'd180',
+        d180 = 4, // 'd180'
         /**
          * 135 degrees anti-clockwise
          */
-        d225 = 'd225',
+        d225 = 5, // 'd225'
         /**
          * 90 degrees anti-clockwise
          */
-        d270 = 'd270',
+        d270 = 6, // 'd270'
         /**
          * 45 degrees anti-clockwise
          */
-        d315 = 'd315'
+        d315 = 7 // 'd315'
     }
 
     /**
@@ -2264,15 +2303,15 @@ declare module Vips {
         /**
          * Int everywhere
          */
-        integer = 'integer',
+        integer = 0, // 'integer'
         /**
          * Float everywhere
          */
-        float = 'float',
+        float = 1, // 'float'
         /**
          * Approximate integer output
          */
-        approximate = 'approximate'
+        approximate = 2 // 'approximate'
     }
 
     /**
@@ -2285,19 +2324,19 @@ declare module Vips {
         /**
          * Wrap at word boundaries
          */
-        word = 'word',
+        word = 0, // 'word'
         /**
          * Wrap at character boundaries
          */
-        char = 'char',
+        char = 1, // 'char'
         /**
          * Wrap at word boundaries, but fall back to character boundaries if there is not enough space for a full word
          */
-        word_char = 'word-char',
+        word_char = 2, // 'word-char'
         /**
          * No wrapping
          */
-        none = 'none'
+        none = 3 // 'none'
     }
 
     /**
@@ -2311,19 +2350,19 @@ declare module Vips {
         /**
          * Never stop
          */
-        none = 'none',
+        none = 0, // 'none'
         /**
          * Stop on image truncated, nothing else
          */
-        truncated = 'truncated',
+        truncated = 1, // 'truncated'
         /**
          * Stop on serious error or truncation
          */
-        error = 'error',
+        error = 2, // 'error'
         /**
          * Stop on anything, even warnings
          */
-        warning = 'warning'
+        warning = 3 // 'warning'
     }
 
     /**
@@ -2344,23 +2383,23 @@ declare module Vips {
         /**
          * Portable bitmap
          */
-        pbm = 'pbm',
+        pbm = 0, // 'pbm'
         /**
          * Portable greymap
          */
-        pgm = 'pgm',
+        pgm = 1, // 'pgm'
         /**
          * Portable pixmap
          */
-        ppm = 'ppm',
+        ppm = 2, // 'ppm'
         /**
          * Portable float map
          */
-        pfm = 'pfm',
+        pfm = 3, // 'pfm'
         /**
          * Portable anymap
          */
-        pnm = 'pnm'
+        pnm = 4 // 'pnm'
     }
 
     /**
@@ -2370,15 +2409,15 @@ declare module Vips {
         /**
          * Prevent subsampling when quality >= 90
          */
-        auto = 'auto',
+        auto = 0, // 'auto'
         /**
          * Always perform subsampling
          */
-        on = 'on',
+        on = 1, // 'on'
         /**
          * Never perform subsampling
          */
-        off = 'off'
+        off = 2 // 'off'
     }
 
     /**
@@ -2388,23 +2427,23 @@ declare module Vips {
         /**
          * Use DeepZoom directory layout
          */
-        dz = 'dz',
+        dz = 0, // 'dz'
         /**
          * Use Zoomify directory layout
          */
-        zoomify = 'zoomify',
+        zoomify = 1, // 'zoomify'
         /**
          * Use Google maps directory layout
          */
-        google = 'google',
+        google = 2, // 'google'
         /**
          * Use IIIF v2 directory layout
          */
-        iiif = 'iiif',
+        iiif = 3, // 'iiif'
         /**
          * Use IIIF v3 directory layout
          */
-        iiif3 = 'iiif3'
+        iiif3 = 4 // 'iiif3'
     }
 
     /**
@@ -2414,15 +2453,15 @@ declare module Vips {
         /**
          * Create layers down to 1x1 pixel
          */
-        onepixel = 'onepixel',
+        onepixel = 0, // 'onepixel'
         /**
          * Create layers down to 1x1 tile
          */
-        onetile = 'onetile',
+        onetile = 1, // 'onetile'
         /**
          * Only create a single layer
          */
-        one = 'one'
+        one = 2 // 'one'
     }
 
     /**
@@ -2432,15 +2471,15 @@ declare module Vips {
         /**
          * Write tiles to the filesystem
          */
-        fs = 'fs',
+        fs = 0, // 'fs'
         /**
          * Write tiles to a zip file
          */
-        zip = 'zip',
+        zip = 1, // 'zip'
         /**
          * Write to a szi file
          */
-        szi = 'szi'
+        szi = 2 // 'szi'
     }
 
     /**
@@ -2450,27 +2489,27 @@ declare module Vips {
         /**
          * Use the average
          */
-        mean = 'mean',
+        mean = 0, // 'mean'
         /**
          * Use the median
          */
-        median = 'median',
+        median = 1, // 'median'
         /**
          * Use the mode
          */
-        mode = 'mode',
+        mode = 2, // 'mode'
         /**
          * Use the maximum
          */
-        max = 'max',
+        max = 3, // 'max'
         /**
          * Use the minimum
          */
-        min = 'min',
+        min = 4, // 'min'
         /**
          * Use the top-left pixel
          */
-        nearest = 'nearest'
+        nearest = 5 // 'nearest'
     }
 
     /**
@@ -2480,27 +2519,27 @@ declare module Vips {
         /**
          * Default preset
          */
-        default = 'default',
+        default = 0, // 'default'
         /**
          * Digital picture, like portrait, inner shot
          */
-        picture = 'picture',
+        picture = 1, // 'picture'
         /**
          * Outdoor photograph, with natural lighting
          */
-        photo = 'photo',
+        photo = 2, // 'photo'
         /**
          * Hand or line drawing, with high-contrast details
          */
-        drawing = 'drawing',
+        drawing = 3, // 'drawing'
         /**
          * Small-sized colorful images
          */
-        icon = 'icon',
+        icon = 4, // 'icon'
         /**
          * Text-like
          */
-        text = 'text'
+        text = 5 // 'text'
     }
 
     /**
@@ -2518,39 +2557,39 @@ declare module Vips {
         /**
          * No compression
          */
-        none = 'none',
+        none = 0, // 'none'
         /**
          * Jpeg compression
          */
-        jpeg = 'jpeg',
+        jpeg = 1, // 'jpeg'
         /**
          * Deflate (zip) compression
          */
-        deflate = 'deflate',
+        deflate = 2, // 'deflate'
         /**
          * Packbits compression
          */
-        packbits = 'packbits',
+        packbits = 3, // 'packbits'
         /**
          * Fax4 compression
          */
-        ccittfax4 = 'ccittfax4',
+        ccittfax4 = 4, // 'ccittfax4'
         /**
          * LZW compression
          */
-        lzw = 'lzw',
+        lzw = 5, // 'lzw'
         /**
          * WEBP compression
          */
-        webp = 'webp',
+        webp = 6, // 'webp'
         /**
          * ZSTD compression
          */
-        zstd = 'zstd',
+        zstd = 7, // 'zstd'
         /**
          * JP2K compression
          */
-        jp2k = 'jp2k'
+        jp2k = 8 // 'jp2k'
     }
 
     /**
@@ -2561,15 +2600,15 @@ declare module Vips {
         /**
          * No prediction
          */
-        none = 'none',
+        none = 1, // 'none'
         /**
          * Horizontal differencing
          */
-        horizontal = 'horizontal',
+        horizontal = 2, // 'horizontal'
         /**
          * Float predictor
          */
-        float = 'float'
+        float = 3 // 'float'
     }
 
     /**
@@ -2579,11 +2618,11 @@ declare module Vips {
         /**
          * Use centimeters
          */
-        cm = 'cm',
+        cm = 0, // 'cm'
         /**
          * Use inches
          */
-        inch = 'inch'
+        inch = 1 // 'inch'
     }
 
     /**
@@ -2595,19 +2634,19 @@ declare module Vips {
         /**
          * X265
          */
-        hevc = 'hevc',
+        hevc = 1, // 'hevc'
         /**
          * X264
          */
-        avc = 'avc',
+        avc = 2, // 'avc'
         /**
          * Jpeg
          */
-        jpeg = 'jpeg',
+        jpeg = 3, // 'jpeg'
         /**
          * Aom
          */
-        av1 = 'av1'
+        av1 = 4 // 'av1'
     }
 
     /**
@@ -2619,23 +2658,23 @@ declare module Vips {
         /**
          * Auto
          */
-        auto = 'auto',
+        auto = 0, // 'auto'
         /**
          * Aom
          */
-        aom = 'aom',
+        aom = 1, // 'aom'
         /**
          * RAV1E
          */
-        rav1e = 'rav1e',
+        rav1e = 2, // 'rav1e'
         /**
          * SVT-AV1
          */
-        svt = 'svt',
+        svt = 3, // 'svt'
         /**
          * X265
          */
-        x265 = 'x265'
+        x265 = 4 // 'x265'
     }
 
     /**
@@ -2648,19 +2687,19 @@ declare module Vips {
         /**
          * Size both up and down
          */
-        both = 'both',
+        both = 0, // 'both'
         /**
          * Only upsize
          */
-        up = 'up',
+        up = 1, // 'up'
         /**
          * Only downsize
          */
-        down = 'down',
+        down = 2, // 'down'
         /**
          * Force size, that is, break aspect ratio
          */
-        force = 'force'
+        force = 3 // 'force'
     }
 
     /**
@@ -2672,19 +2711,19 @@ declare module Vips {
         /**
          * Perceptual rendering intent
          */
-        perceptual = 'perceptual',
+        perceptual = 0, // 'perceptual'
         /**
          * Relative colorimetric rendering intent
          */
-        relative = 'relative',
+        relative = 1, // 'relative'
         /**
          * Saturation rendering intent
          */
-        saturation = 'saturation',
+        saturation = 2, // 'saturation'
         /**
          * Absolute colorimetric rendering intent
          */
-        absolute = 'absolute'
+        absolute = 3 // 'absolute'
     }
 
     /**
@@ -2694,27 +2733,27 @@ declare module Vips {
         /**
          * The nearest pixel to the point.
          */
-        nearest = 'nearest',
+        nearest = 0, // 'nearest'
         /**
          * Convolve with a triangle filter.
          */
-        linear = 'linear',
+        linear = 1, // 'linear'
         /**
          * Convolve with a cubic filter.
          */
-        cubic = 'cubic',
+        cubic = 2, // 'cubic'
         /**
          * Convolve with a Mitchell kernel.
          */
-        mitchell = 'mitchell',
+        mitchell = 3, // 'mitchell'
         /**
          * Convolve with a two-lobe Lanczos kernel.
          */
-        lanczos2 = 'lanczos2',
+        lanczos2 = 4, // 'lanczos2'
         /**
          * Convolve with a three-lobe Lanczos kernel.
          */
-        lanczos3 = 'lanczos3'
+        lanczos3 = 5 // 'lanczos3'
     }
 
     /**
@@ -2726,11 +2765,11 @@ declare module Vips {
         /**
          * Use CIELAB D65 as the Profile Connection Space
          */
-        lab = 'lab',
+        lab = 0, // 'lab'
         /**
          * Use XYZ as the Profile Connection Space
          */
-        xyz = 'xyz'
+        xyz = 1 // 'xyz'
     }
 
     /**
@@ -2742,11 +2781,11 @@ declare module Vips {
         /**
          * True if all set
          */
-        erode = 'erode',
+        erode = 0, // 'erode'
         /**
          * True if one set
          */
-        dilate = 'dilate'
+        dilate = 1 // 'dilate'
     }
 
     /**
@@ -2761,11 +2800,45 @@ declare module Vips {
         /**
          * Set pixels to the new value
          */
-        set = 'set',
+        set = 0, // 'set'
         /**
          * Add pixels
          */
-        add = 'add'
+        add = 1 // 'add'
+    }
+
+    /**
+     * Which metadata to retain.
+     */
+    enum ForeignKeep {
+        /**
+         * Don't attach metadata
+         */
+        none = 0, // 'none'
+        /**
+         * Keep Exif metadata
+         */
+        exif = 1, // 'exif'
+        /**
+         * Keep XMP metadata
+         */
+        xmp = 2, // 'xmp'
+        /**
+         * Keep IPTC metadata
+         */
+        iptc = 4, // 'iptc'
+        /**
+         * Keep ICC metadata
+         */
+        icc = 8, // 'icc'
+        /**
+         * Keep other metadata (e.g. PNG comments and some TIFF tags)
+         */
+        other = 16, // 'other'
+        /**
+         * Keep all metadata
+         */
+        all = 31 // 'all'
     }
 
     /**
@@ -2776,27 +2849,27 @@ declare module Vips {
         /**
          * No filtering
          */
-        none = 'none',
+        none = 8, // 'none'
         /**
          * Difference to the left
          */
-        sub = 'sub',
+        sub = 16, // 'sub'
         /**
          * Difference up
          */
-        up = 'up',
+        up = 32, // 'up'
         /**
          * Average of left and up
          */
-        avg = 'avg',
+        avg = 64, // 'avg'
         /**
          * Pick best neighbor predictor automatically
          */
-        paeth = 'paeth',
+        paeth = 128, // 'paeth'
         /**
          * Adaptive
          */
-        all = 'all'
+        all = 248 // 'all'
     }
 
     //#endregion
@@ -2825,6 +2898,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -2938,6 +3015,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -2978,6 +3059,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3022,6 +3107,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3046,6 +3135,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3129,6 +3222,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3162,6 +3259,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3194,6 +3295,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3250,6 +3355,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3291,6 +3400,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3331,6 +3444,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3381,6 +3498,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3410,6 +3531,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3438,6 +3563,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3476,6 +3605,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3512,6 +3645,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3550,6 +3687,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3574,6 +3715,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3600,6 +3745,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3624,6 +3773,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -3680,6 +3833,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -3716,6 +3873,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4030,6 +4191,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4054,6 +4219,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4080,6 +4249,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4104,6 +4277,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4130,6 +4307,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4154,6 +4335,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4200,6 +4385,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4244,6 +4433,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4294,6 +4487,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4343,6 +4540,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4391,6 +4592,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4443,6 +4648,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4471,6 +4680,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4501,6 +4714,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4526,6 +4743,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4550,6 +4771,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4583,6 +4808,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4608,6 +4837,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4632,6 +4865,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4672,6 +4909,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -4739,6 +4980,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4776,6 +5021,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -4812,6 +5061,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -5088,6 +5341,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -5129,6 +5386,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -5169,6 +5430,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -5243,6 +5508,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -5267,6 +5536,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -5305,6 +5578,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -5342,6 +5619,10 @@ declare module Vips {
              */
             fail_on?: FailOn | Enum
             /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
+            /**
              * Flags for this file (output).
              */
             flags?: number | undefined
@@ -5378,6 +5659,10 @@ declare module Vips {
              * Error level to fail on.
              */
             fail_on?: FailOn | Enum
+            /**
+             * Don't use a cached result for this operation.
+             */
+            revalidate?: boolean
             /**
              * Flags for this file (output).
              */
@@ -5924,7 +6209,7 @@ declare module Vips {
         convi(mask: Image | ArrayConstant): Image;
 
         /**
-         * Seperable convolution operation.
+         * Separable convolution operation.
          * @param mask Input matrix image.
          * @param options Optional options.
          * @return Output image.
@@ -6020,9 +6305,9 @@ declare module Vips {
              */
             separator?: string
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6031,6 +6316,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6044,9 +6333,9 @@ declare module Vips {
              */
             separator?: string
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6055,6 +6344,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6205,9 +6498,9 @@ declare module Vips {
          */
         dzsave(filename: string, options?: {
             /**
-             * Base name to save to.
+             * Image name.
              */
-            basename?: string
+            imagename?: string
             /**
              * Directory layout.
              */
@@ -6253,17 +6546,17 @@ declare module Vips {
              */
             skip_blanks?: number
             /**
-             * Don't strip tile metadata.
-             */
-            no_strip?: boolean
-            /**
              * Resource id.
              */
             id?: string
             /**
-             * Strip all metadata from image.
+             * Q factor.
              */
-            strip?: boolean
+            Q?: number
+            /**
+             * Which metadata to retain.
+             */
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6272,6 +6565,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6281,9 +6578,9 @@ declare module Vips {
          */
         dzsaveBuffer(options?: {
             /**
-             * Base name to save to.
+             * Image name.
              */
-            basename?: string
+            imagename?: string
             /**
              * Directory layout.
              */
@@ -6329,17 +6626,17 @@ declare module Vips {
              */
             skip_blanks?: number
             /**
-             * Don't strip tile metadata.
-             */
-            no_strip?: boolean
-            /**
              * Resource id.
              */
             id?: string
             /**
-             * Strip all metadata from image.
+             * Q factor.
              */
-            strip?: boolean
+            Q?: number
+            /**
+             * Which metadata to retain.
+             */
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6348,6 +6645,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -6357,9 +6658,9 @@ declare module Vips {
          */
         dzsaveTarget(target: Target, options?: {
             /**
-             * Base name to save to.
+             * Image name.
              */
-            basename?: string
+            imagename?: string
             /**
              * Directory layout.
              */
@@ -6405,17 +6706,17 @@ declare module Vips {
              */
             skip_blanks?: number
             /**
-             * Don't strip tile metadata.
-             */
-            no_strip?: boolean
-            /**
              * Resource id.
              */
             id?: string
             /**
-             * Strip all metadata from image.
+             * Q factor.
              */
-            strip?: boolean
+            Q?: number
+            /**
+             * Which metadata to retain.
+             */
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6424,6 +6725,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6501,9 +6806,9 @@ declare module Vips {
          */
         fitssave(filename: string, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6512,6 +6817,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6628,9 +6937,9 @@ declare module Vips {
              */
             interlace?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6639,6 +6948,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6676,9 +6989,9 @@ declare module Vips {
              */
             interlace?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6687,6 +7000,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -6724,9 +7041,9 @@ declare module Vips {
              */
             interlace?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6735,6 +7052,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6816,9 +7137,9 @@ declare module Vips {
              */
             encoder?: ForeignHeifEncoder | Enum
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6827,6 +7148,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -6864,9 +7189,9 @@ declare module Vips {
              */
             encoder?: ForeignHeifEncoder | Enum
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6875,6 +7200,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -6912,9 +7241,9 @@ declare module Vips {
              */
             encoder?: ForeignHeifEncoder | Enum
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -6923,6 +7252,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7266,9 +7599,9 @@ declare module Vips {
              */
             subsample_mode?: ForeignSubsample | Enum
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7277,6 +7610,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7306,9 +7643,9 @@ declare module Vips {
              */
             subsample_mode?: ForeignSubsample | Enum
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7317,6 +7654,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -7346,9 +7687,9 @@ declare module Vips {
              */
             subsample_mode?: ForeignSubsample | Enum
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7357,6 +7698,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7370,10 +7715,6 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Compute optimal huffman coding tables.
              */
             optimize_coding?: boolean
@@ -7406,9 +7747,9 @@ declare module Vips {
              */
             restart_interval?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7417,6 +7758,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7430,10 +7775,6 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Compute optimal huffman coding tables.
              */
             optimize_coding?: boolean
@@ -7466,9 +7807,9 @@ declare module Vips {
              */
             restart_interval?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7477,6 +7818,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -7489,10 +7834,6 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Compute optimal huffman coding tables.
              */
             optimize_coding?: boolean
@@ -7525,9 +7866,9 @@ declare module Vips {
              */
             restart_interval?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7536,6 +7877,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7549,10 +7894,6 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Compute optimal huffman coding tables.
              */
             optimize_coding?: boolean
@@ -7585,9 +7926,9 @@ declare module Vips {
              */
             restart_interval?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7596,6 +7937,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7625,9 +7970,9 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7636,6 +7981,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7665,9 +8014,9 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7676,6 +8025,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -7705,9 +8058,9 @@ declare module Vips {
              */
             Q?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7716,6 +8069,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7795,9 +8152,9 @@ declare module Vips {
              */
             bitdepth?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7806,6 +8163,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7835,9 +8196,9 @@ declare module Vips {
              */
             bitdepth?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7846,6 +8207,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -7946,9 +8311,9 @@ declare module Vips {
          */
         matrixprint(options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7957,6 +8322,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7966,9 +8335,9 @@ declare module Vips {
          */
         matrixsave(filename: string, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7977,6 +8346,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -7986,9 +8359,9 @@ declare module Vips {
          */
         matrixsaveTarget(target: Target, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -7997,6 +8370,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8231,9 +8608,9 @@ declare module Vips {
          */
         niftisave(filename: string, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8242,6 +8619,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8273,10 +8654,6 @@ declare module Vips {
              */
             interlace?: boolean
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Libspng row filter flag(s).
              */
             filter?: ForeignPngFilter | Flag
@@ -8301,9 +8678,9 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8312,6 +8689,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8329,10 +8710,6 @@ declare module Vips {
              */
             interlace?: boolean
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Libspng row filter flag(s).
              */
             filter?: ForeignPngFilter | Flag
@@ -8357,9 +8734,9 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8368,6 +8745,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -8385,10 +8766,6 @@ declare module Vips {
              */
             interlace?: boolean
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Libspng row filter flag(s).
              */
             filter?: ForeignPngFilter | Flag
@@ -8413,9 +8790,9 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8424,6 +8801,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8445,9 +8826,9 @@ declare module Vips {
              */
             bitdepth?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8456,6 +8837,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8477,9 +8862,9 @@ declare module Vips {
              */
             bitdepth?: number
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8488,6 +8873,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8501,6 +8890,12 @@ declare module Vips {
              */
             max_alpha?: number
         }): Image;
+
+        /**
+         * Prewitt edge detector.
+         * @return Output image.
+         */
+        prewitt(): Image;
 
         /**
          * Resample an image with a quadratic transform.
@@ -8528,9 +8923,9 @@ declare module Vips {
          */
         radsave(filename: string, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8539,6 +8934,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8548,9 +8947,9 @@ declare module Vips {
          */
         radsaveBuffer(options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8559,6 +8958,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -8568,9 +8971,9 @@ declare module Vips {
          */
         radsaveTarget(target: Target, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8579,6 +8982,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8597,9 +9004,9 @@ declare module Vips {
          */
         rawsave(filename: string, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8608,6 +9015,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8617,9 +9028,9 @@ declare module Vips {
          */
         rawsaveFd(fd: number, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -8628,6 +9039,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -8851,6 +9266,12 @@ declare module Vips {
         }): Image;
 
         /**
+         * Scharr edge detector.
+         * @return Output image.
+         */
+        scharr(): Image;
+
+        /**
          * Check sequential access.
          * @param options Optional options.
          * @return Output image.
@@ -8992,6 +9413,10 @@ declare module Vips {
              * How to measure interestingness.
              */
             interesting?: Interesting | Enum
+            /**
+             * Input image already has premultiplied alpha.
+             */
+            premultiplied?: boolean
             /**
              * Horizontal position of attention centre (output).
              */
@@ -9138,10 +9563,6 @@ declare module Vips {
              */
             predictor?: ForeignTiffPredictor | Enum
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Write a tiled tiff.
              */
             tile?: boolean
@@ -9210,9 +9631,9 @@ declare module Vips {
              */
             premultiply?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9221,6 +9642,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -9242,10 +9667,6 @@ declare module Vips {
              */
             predictor?: ForeignTiffPredictor | Enum
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Write a tiled tiff.
              */
             tile?: boolean
@@ -9314,9 +9735,9 @@ declare module Vips {
              */
             premultiply?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9325,6 +9746,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -9346,10 +9771,6 @@ declare module Vips {
              */
             predictor?: ForeignTiffPredictor | Enum
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Write a tiled tiff.
              */
             tile?: boolean
@@ -9418,9 +9839,9 @@ declare module Vips {
              */
             premultiply?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9429,6 +9850,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -9498,9 +9923,9 @@ declare module Vips {
          */
         vipssave(filename: string, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9509,6 +9934,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -9518,9 +9947,9 @@ declare module Vips {
          */
         vipssaveTarget(target: Target, options?: {
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9529,6 +9958,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -9578,17 +10011,13 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Allow mixed encoding (might reduce file size).
              */
             mixed?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9597,6 +10026,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -9646,17 +10079,13 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Allow mixed encoding (might reduce file size).
              */
             mixed?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9665,6 +10094,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): Uint8Array;
 
         /**
@@ -9713,17 +10146,13 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Allow mixed encoding (might reduce file size).
              */
             mixed?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9732,6 +10161,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
@@ -9781,17 +10214,13 @@ declare module Vips {
              */
             effort?: number
             /**
-             * Icc profile to embed.
-             */
-            profile?: string
-            /**
              * Allow mixed encoding (might reduce file size).
              */
             mixed?: boolean
             /**
-             * Strip all metadata from image.
+             * Which metadata to retain.
              */
-            strip?: boolean
+            keep?: ForeignKeep | Flag
             /**
              * Background value.
              */
@@ -9800,6 +10229,10 @@ declare module Vips {
              * Set page height for multipage save.
              */
             page_height?: number
+            /**
+             * Filename of icc profile to embed.
+             */
+            profile?: string
         }): void;
 
         /**
