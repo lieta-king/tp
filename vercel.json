@@ -14,21 +14,5 @@
       ]
     }
   ]
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "vips-es6.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "vips.wasm",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+
 }
